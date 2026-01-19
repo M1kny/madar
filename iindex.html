@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>NOXUS | Sila a Krv</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --blood: #ff0000;      
+            --blood-dark: #660000; 
+            --iron: rgba(255, 255, 255, 0.05); 
+            --bg: #050505; 
+            --text: #eeeeee;
+        }
+
+        body { 
+            margin: 0; 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigácia */
+        nav { 
+            background: rgba(1, 10, 19, 0.9); 
+            padding: 1.5rem; 
+            display: flex; 
+            justify-content: center; 
+            gap: 3rem; 
+            border-bottom: 2px solid var(--blood-dark); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        nav a { color: var(--blood-dark); text-decoration: none; font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover, .active { color: var(--blood) !important; text-shadow: 0 0 10px var(--blood); }
+
+        /* Eye-Catching Nadpis */
+        h1 { 
+            font-family: 'Cinzel', serif; 
+            font-size: clamp(3rem, 8vw, 5.5rem); 
+            text-align: center; 
+            margin: 60px 0;
+            background: linear-gradient(to bottom, var(--blood), var(--blood-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.3)); transform: scale(1); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.7)); transform: scale(1.02); }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+        /* Karty */
+        .char-card { 
+            background: var(--iron); 
+            backdrop-filter: blur(12px);
+            padding: 50px 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--blood-dark); 
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .char-card:hover { 
+            transform: translateY(-15px); 
+            background: rgba(255, 255, 255, 0.08); 
+            border-top-color: var(--blood);
+            box-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
+        }
+
+        .char-card h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; margin-top: 15px; color: #fff; }
+        .tag { color: var(--blood); font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: linear-gradient(145deg, #111, #050505);
+            padding: 50px;
+            max-width: 700px;
+            width: 90%;
+            border: 1px solid var(--blood);
+            border-radius: 20px;
+            position: relative;
+            transform: scale(0.8);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: var(--blood); font-size: 2.5rem; cursor: pointer; }
+        .modal-text { white-space: pre-line; line-height: 1.8; color: #ccc; text-align: justify; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Demacia</a>
+        <a href="iindex.html" class="active">Noxus</a>
+        <a href="iiindex.html">Ionia</a>
+        <a href="iiiindex.html">Zaun</a>
+    </nav>
+
+    <div class="container">
+        <h1>Moc Noxusu</h1>
+        <div class="char-grid">
+            <div class="char-card" onclick="openModal('Darius', 'Ruka Noxusu', 'Darius je najobávanejším generálom impéria. Vyrastal v chudobe a všetko si vybojoval vlastnou krvou.\n\nNa bojisku nepozná zľutovanie a jeho sekera rozsieva strach. Verí, že Noxus musí byť silný, inak zanikne.')">
+                <span class="tag">Ruka Noxusu</span>
+                <h2>Darius</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Swain', 'Veľmajster', 'Swain zvrhol tyrana a premenil Noxus na ríšu vedenú intelektom. Vďaka paktu s démonom vidí tajomstvá nepriateľov.\n\nJe to vizionár, ktorý pripravuje svet na hrozbu, ktorú vidí iba on. Je ochotný obetovať kohokoľvek pre vyššie dobro.')">
+                <span class="tag">Veľmajster</span>
+                <h2>Jericho Swain</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Katarina', 'Zlovestná čepeľ', 'Katarina je vrahyňa z prestížnej rodiny. Je známa svojou rýchlosťou a schopnosťou zlikvidovať ciele v zlomku sekundy.\n\nNeustále hľadá nové výzvy a dokazuje, že aj bez mágie dokáže byť smrteľnejšia než najlepší kúzelníci.')">
+                <span class="tag">Zlovestná čepeľ</span>
+                <h2>Katarina</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Draven', 'Slávny popravca', 'Draven premenil vojenské popravy na veľkolepú šou v arénach. Svojimi sekerami si získal srdcia davov.\n\nPre neho nie je boj o víťazstve, ale o tom, ako pri tom vyzeráš a koľkokrát vykríknu tvoje meno.')">
+                <span class="tag">Slávny popravca</span>
+                <h2>Draven</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('LeBlanc', 'Pani klamu', 'LeBlanc manipuluje politikou Noxusu už stáročia. Jej skutočná identita a vek sú záhadou.\n\nDokáže vytvárať ilúzie a v pozadí ťahá za nitky osudu, aby zabezpečila, že Noxus smeruje tam, kde ho potrebuje mať.')">
+                <span class="tag">Čierna ruža</span>
+                <h2>LeBlanc</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Mordekaiser', 'Železný prízrak', 'Mordekaiser bol smrteľným dobyvateľom, ktorý si po smrti vybudoval vlastnú ríšu v podsvetí.\n\nJe to monštrum v brnení ukovanom z duší nepriateľov. Čaká na svoj návrat, aby zotročil všetko živé pod svoju nadvládu.')">
+                <span class="tag">Železný prízrak</span>
+                <h2>Mordekaiser</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Vladimir', 'Krvavý reaper', 'Vladimir je pánom mágie krvi. Žije už tisícročia a udržuje si mladosť vďaka vysávaniu životnej sily z ostatných.\n\nJeho vplyv na noxijskú šľachtu je nesmierny a každá kvapka krvi, ktorú vylejete, ho len posilňuje.')">
+                <span class="tag">Hemomant</span>
+                <h2>Vladimir</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Samira', 'Púštna ruža', 'Samira je žoldnierka, ktorá hľadá adrenalín v tých najnebezpečnejších misiách. Bojuje s mečom aj pištoľami s eleganciou.\n\nČím je situácia zúfalejšia, tým viac si ju Samira užíva, pričom za sebou zanecháva len spúšť a štýlové víťazstvo.')">
+                <span class="tag">Púštna ruža</span>
+                <h2>Samira</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Talon', 'Tieň čepele', 'Talon vyrastal na uliciach, kde sa naučil, že prežitie závisí od rýchlosti. Útočí z tieňov ticho a presne.\n\nJeho čepele sú smrteľné a po jeho útoku nezostávajú žiadni svedkovia. Slúži ako najlepší vrah rodiny Du Couteau.')">
+                <span class="tag">Vrah z tieňov</span>
+                <h2>Talon</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Sion', 'Nemŕtvy ničiteľ', 'Sion bol hrdinom oživeným pomocou čiernej mágie. Teraz je z neho len prázdna schránka poháňaná nenávisťou.\n\nNa bojisku je nezastaviteľný, nezastaví ho bolesť ani zranenia. Je to živé obliehacie zariadenie.')">
+                <span class="tag">Nemŕtvy kolos</span>
+                <h2>Sion</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Riven', 'Vyhnanec', 'Riven bola kapitánkou, ktorá sa po zrade v Ionii rozhodla zlomiť svoj meč aj putá s Noxusom.\n\nTeraz putuje svetom a hľadá vykúpenie, hoci ju Noxus stále považuje za zradkyňu, ktorú treba priviesť späť.')">
+                <span class="tag">Zlomená čepeľ</span>
+                <h2>Riven</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Briar', 'Nespútaný hlad', 'Briar je experiment Čiernej ruže s neukojiteľným hladom po krvi. Snaží sa ho ovládať pomocou klady.\n\nKeď sa však uvoľní, stáva sa neriadenou strelou plnou zúrivosti, hoci túži aj po poznaní sveta mimo ciel väzenia.')">
+                <span class="tag">Hladné monštrum</span>
+                <h2>Briar</h2>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="modalTag" class="tag" style="display:block; margin-bottom:10px;"></span>
+            <h2 id="modalTitle" style="font-family: 'Cinzel'; font-size: 3rem; margin: 0 0 20px 0; color:var(--blood);"></h2>
+            <div id="modalText" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, tag, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTag').innerText = tag;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

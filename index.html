@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMACIA | Spravodlivosť a Česť</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --royal: #00c6ff;      
+            --royal-dark: #004e92; 
+            --gold: #fcc200;
+            --gold-dark: #8e6e2e;
+            --iron: rgba(255, 255, 255, 0.05); 
+            --bg: #03070b; 
+            --text: #eeeeee;
+        }
+
+        body { 
+            margin: 0; 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigácia */
+        nav { 
+            background: rgba(1, 10, 19, 0.9); 
+            padding: 1.5rem; 
+            display: flex; 
+            justify-content: center; 
+            gap: 3rem; 
+            border-bottom: 2px solid var(--royal-dark); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        nav a { color: var(--royal-dark); text-decoration: none; font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover, .active { color: var(--royal) !important; text-shadow: 0 0 10px var(--royal); }
+
+        /* Eye-Catching Nadpis */
+        h1 { 
+            font-family: 'Cinzel', serif; 
+            font-size: clamp(3rem, 8vw, 5.5rem); 
+            text-align: center; 
+            margin: 60px 0;
+            background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(200, 170, 110, 0.4));
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { filter: drop-shadow(0 0 10px rgba(200, 170, 110, 0.3)); transform: scale(1); }
+            to { filter: drop-shadow(0 0 30px rgba(200, 170, 110, 0.6)); transform: scale(1.02); }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+        /* Karty */
+        .char-card { 
+            background: var(--iron); 
+            backdrop-filter: blur(12px);
+            padding: 50px 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--royal-dark); 
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .char-card:hover { 
+            transform: translateY(-15px); 
+            background: rgba(255, 255, 255, 0.08); 
+            border-top-color: var(--royal);
+            box-shadow: 0 20px 40px rgba(0, 198, 255, 0.2);
+        }
+
+        .char-card h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; margin-top: 15px; color: #fff; }
+        .tag { color: var(--gold); font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: linear-gradient(145deg, #0d1117, #05070a);
+            padding: 50px;
+            max-width: 700px;
+            width: 90%;
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            position: relative;
+            transform: scale(0.8);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: var(--gold); font-size: 2.5rem; cursor: pointer; }
+        .modal-text { white-space: pre-line; line-height: 1.8; color: #ccc; text-align: justify; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="active">Demacia</a>
+        <a href="iindex.html">Noxus</a>
+        <a href="iiindex.html">Ionia</a>
+        <a href="iiiindex.html">Zaun</a>
+    </nav>
+
+    <div class="container">
+        <h1>Sláva Demacie</h1>
+        <div class="char-grid">
+            
+            <div class="char-card" onclick="openModal('Garen', 'Moc Demacie', 'Garen je veliteľom Neohrozenej gardy a stelesnením demacijských hodnôt. Bojuje s masívnym petricitovým mečom.\n\nJeho lojalita ku kráľovstvu je neotrasiteľná, hoci vnútorne zápasí s tajomstvom svojej sestry Lux. Na bojisku je nezastaviteľnou silou, ktorá volá po spravodlivosti.')">
+                <span class="tag">Veliteľ gardy</span>
+                <h2>Garen</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Lux', 'Svetlonoska', 'Luxanna Crownguard pochádza z prestížnej rodiny, no narodila sa s darom mágie svetla.\n\nV krajine, kde je mágia zakázaná, musela svoju silu roky skrývať. Dnes hľadá spôsob, ako zjednotiť Demaciu a ukázať, že mágia môže slúžiť dobru.')">
+                <span class="tag">Mág svetla</span>
+                <h2>Lux</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Jarvan IV.', 'Príkladný kráľ', 'Jarvan IV. prevzal trón po tragickej smrti svojho otca. Je to udatný bojovník, ktorý vedie svoje vojská priamo z prvej línie.\n\nJeho drakobijecká kopija zasieva strach do sŕdc nepriateľov. Hoci čelí politickým nepokojom, jeho cieľom je udržať Demaciu silnú a jednotnú.')">
+                <span class="tag">Kráľ</span>
+                <h2>Jarvan IV.</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Sylas', 'Nespútaný', 'Sylas strávil roky v temniciach kvôli svojej schopnosti kradnúť mágiu. Teraz vedie krvavú revolúciu za oslobodenie všetkých mágov.\n\nPoužíva tie isté petricitové reťaze, ktoré ho kedysi väznili, aby zvrhol monarchiu a priniesol svetu chaos, ktorý nazýva slobodou.')">
+                <span class="tag">Vodca rebelov</span>
+                <h2>Sylas</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Fiora', 'Majstrovská šermiarka', 'Fiora je najobávanejšou duelantkou v celej Runeterre. Pošpinenú česť svojej rodiny očistila oceľou a krvou.\n\nHľadá len tých najlepších súperov, aby dokázala svoju dominanciu. Jej kord je rýchlejší než oko a jej vôľa pevnejšia než demacijský mramor.')">
+                <span class="tag">Duelantka</span>
+                <h2>Fiora</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Lucian', 'Očisťovač', 'Lucian je lovec nemŕtvych, ktorý bojuje s dvojicou starobylých svetelných pištolí. Jeho životným poslaním je očistiť svet od tieňov.\n\nPo tom, čo stratil svoju manželku Sennu v Threshovom lampáši, sa jeho srdce zatvrdilo, no jeho viera v svetlo zostala neoblomná.')">
+                <span class="tag">Strážca svetla</span>
+                <h2>Lucian</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Xin Zhao', 'Správca Demacie', 'Xin Zhao bol kedysi gladiátorom, kým ho kráľ Jarvan III. nezachránil a neprijal do svojich služieb.\n\nJeho vernosť kráľovskej rodine je absolútna. Svojou kopijou bráni palác a tradície krajiny, pričom jeho bojový štýl je zmesou disciplíny a dravosti.')">
+                <span class="tag">Správca</span>
+                <h2>Xin Zhao</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Vayne', 'Nočná lovkyňa', 'Vayne zasvätila svoj život lovu monštier po tom, čo démon zabil jej rodičov. Je chladná, efektívna a nepozná zľutovanie.\n\nSvojou kušou strieľa strieborné šípy, ktoré prenikajú temnotou. Pre ňu nie je v Demacii miesto pre nikoho, kto sa dotkol čiernej mágie.')">
+                <span class="tag">Lovkyňa príšer</span>
+                <h2>Vayne</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Sona', 'Virtuózka strún', 'Sona je adoptovaná dcéra demacijskej aristokracie, ktorá komunikuje len cez tóny svojho magického nástroja Etwahl.\n\nJej hudba dokáže liečiť rany alebo lámať kosti nepriateľov. Hoci je vnímaná ako krehká umelkyňa, skrýva v sebe mocnú mágiu, ktorú krajina odsudzuje.')">
+                <span class="tag">Mág hudby</span>
+                <h2>Sona</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Shyvana', 'Polodrak', 'Shyvana je bytosť s drakonickou krvou, ktorá dokáže v hneve zmeniť svoju podobu na obrovského draka.\n\nV Demacii našla domov vďaka Jarvanovi IV., no stále zápasí s nenávisťou obyvateľov voči všetkému neprirodzenému. Bojuje, aby dokázala svoju cenu.')">
+                <span class="tag">Polodrak</span>
+                <h2>Shyvana</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Quinn', 'Krídla Demacie', 'Quinn je elitná prieskumníčka, ktorá operuje hlboko v nepriateľskom území so svojím orlom Valorom.\n\nSú dokonale zohratý tím, ktorý vidí nebezpečenstvo skôr, než sa priblíži k hradbám. Jej vernosť patrí slobode a bezpečiu demacijského ľudu.')">
+                <span class="tag">Prieskumníčka</span>
+                <h2>Quinn</h2>
+            </div>
+
+            <div class="char-card" onclick="openModal('Galio', 'Kolos', 'Galio je obrovská socha z petricitu, ktorá ožíva len vtedy, keď je v blízkosti silná mágia. Slúži ako konečná obrana proti kúzelníkom.\n\nHoci väčšinu času spí, miluje boj a hrmot bitky. Chráni svojich malých priateľov z Demacie s nesmiernou silou a radosťou.')">
+                <span class="tag">Ochranca</span>
+                <h2>Galio</h2>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="modalTag" class="tag" style="display:block; margin-bottom:10px;"></span>
+            <h2 id="modalTitle" style="font-family: 'Cinzel'; font-size: 3rem; margin: 0 0 20px 0; color:var(--gold);"></h2>
+            <div id="modalText" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, tag, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTag').innerText = tag;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>IONIA | Duchovná Rovnováha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --spirit: #00f2fe;      
+            --magic: #a29bfe; 
+            --iron: rgba(255, 255, 255, 0.05); 
+            --bg: #0b0314; 
+            --text: #eeeeee;
+        }
+
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+        nav { 
+            background: rgba(11, 3, 20, 0.9); padding: 1.5rem; display: flex; justify-content: center; gap: 3rem; 
+            border-bottom: 2px solid var(--spirit); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+        }
+        nav a { color: var(--magic); text-decoration: none; font-family: 'Cinzel', serif; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover, .active { color: var(--spirit) !important; text-shadow: 0 0 10px var(--spirit); }
+
+        h1 { 
+            font-family: 'Cinzel', serif; font-size: clamp(3rem, 8vw, 5.5rem); text-align: center; margin: 60px 0;
+            background: linear-gradient(to bottom, var(--spirit), var(--magic));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.4));
+            text-transform: uppercase; letter-spacing: 12px; animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.3)); transform: scale(1); }
+            to { filter: drop-shadow(0 0 30px rgba(162, 155, 254, 0.6)); transform: scale(1.02); }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+        .char-card { 
+            background: var(--iron); backdrop-filter: blur(12px); padding: 50px 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-top: 4px solid var(--spirit); 
+            border-radius: 25px 5px 25px 5px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;
+        }
+
+        .char-card:hover { 
+            transform: translateY(-15px); background: rgba(255, 255, 255, 0.08); 
+            border-top-color: var(--magic); box-shadow: 0 20px 40px rgba(0, 242, 254, 0.2);
+        }
+
+        .char-card h2 { font-family: 'Cinzel', serif; font-size: 1.8rem; margin-top: 15px; color: #fff; }
+        .tag { color: var(--spirit); font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9);
+            display: flex; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(15px);
+            opacity: 0; visibility: hidden; transition: 0.4s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: linear-gradient(145deg, #1a0b2e, #0b0314); padding: 50px; max-width: 700px; width: 90%;
+            border: 1px solid var(--spirit); border-radius: 20px; position: relative; transform: scale(0.8); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: var(--spirit); font-size: 2.5rem; cursor: pointer; }
+        .modal-text { white-space: pre-line; line-height: 1.8; color: #ccc; text-align: justify; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Demacia</a>
+        <a href="iindex.html">Noxus</a>
+        <a href="iiindex.html" class="active">Ionia</a>
+        <a href="iiiindex.html">Zaun</a>
+    </nav>
+
+    <div class="container">
+        <h1>Duchovia Ionie</h1>
+        <div class="char-grid">
+            <div class="char-card" onclick="openModal('Yasuo', 'Majster vetra', 'Yasuo je geniálny šermiar, ktorý ovláda silu vetra. Bol nespravodlivo obvinený z vraždy a roky putoval ako vyhnanec.\n\nDnes hľadá cestu k vykúpeniu, sprevádzaný len svojou flautou a ostrou čepeľou.')"><h2>Yasuo</h2><span class="tag">Vyhnanec</span></div>
+            <div class="char-card" onclick="openModal('Yone', 'Lovec démonov', 'Yone sa vrátil zo sveta mŕtvych, aby lovil Azakanov. Bojuje s dvoma mečmi – jedným z ocele a druhým z ríše duchov.')"><h2>Yone</h2><span class="tag">Nezabudnutý</span></div>
+            <div class="char-card" onclick="openModal('Irelia', 'Vodkyňa odporu', 'Irelia premenila rodinný tanec na smrtonosné umenie. Vedie boj za slobodu Ionie pomocou levitujúcich čepelí.')"><h2>Irelia</h2><span class="tag">Tanečnica čepelí</span></div>
+            <div class="char-card" onclick="openModal('Ahri', 'Vastaya', 'Ahri ovláda mágiu duší a emócií. Hľadá svoj pôvod, pričom sa snaží kontrolovať svoj hlad po esencii ostatných.')"><h2>Ahri</h2><span class="tag">Deväťchvostá líška</span></div>
+            <div class="char-card" onclick="openModal('Zed', 'Majster tieňov', 'Zed využíva zakázanú mágiu tieňov na ochranu Ionie. Verí, že rovnováha je slabosť a len sila zabezpečí mier.')"><h2>Zed</h2><span class="tag">Tieňový rád</span></div>
+            <div class="char-card" onclick="openModal('Akali', 'Vrah bez pána', 'Akali opustila svoj rád, aby bojovala po svojom. Útočí z dymu s nevídanou rýchlosťou a presnosťou.')"><h2>Akali</h2><span class="tag">Nespútaná</span></div>
+            <div class="char-card" onclick="openModal('Lee Sin', 'Slepý mních', 'Lee Sin ovláda silu draka. Svoj zrak obetoval pre záchranu kláštora a teraz bojuje so zvýšenými zmyslami.')"><h2>Lee Sin</h2><span class="tag">Dračí hnev</span></div>
+            <div class="char-card" onclick="openModal('Karma', 'Osvietená', 'Karma nesie dušu Ionie. Je duchovným majákom, ktorý hľadá cestu medzi tradíciou a nutnosťou vojny.')"><h2>Karma</h2><span class="tag">Duchovný vodca</span></div>
+            <div class="char-card" onclick="openModal('Master Yi', 'Wuju majster', 'Yi je posledný majster umenia Wuju. Vďaka meditácii útočí tak rýchlo, že ho nepriateľ ani nepostrehne.')"><h2>Master Yi</h2><span class="tag">Čepeľ Wuju</span></div>
+            <div class="char-card" onclick="openModal('Syndra', 'Temná vládkyňa', 'Syndra disponuje neobmedzenou magickou mocou. Odmieta sa podriadiť komukoľvek, kto by chcel jej silu brzdiť.')"><h2>Syndra</h2><span class="tag">Temná energia</span></div>
+            <div class="char-card" onclick="openModal('Shen', 'Oko súmraku', 'Shen udržuje rovnováhu medzi svetom ľudí a duchov. Musí byť nestranný, aby zachránil existenciu oboch svetov.')"><h2>Shen</h2><span class="tag">Strážca</span></div>
+            <div class="char-card" onclick="openModal('Jhin', 'Virtuóz', 'Jhin vidí v smrti umenie. Každá jeho vražda je starostlivo naplánovaným a desivým predstavením.')"><h2>Jhin</h2><span class="tag">Umelec smrti</span></div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="modalTag" class="tag" style="display:block; margin-bottom:10px;"></span>
+            <h2 id="modalTitle" style="font-family: 'Cinzel'; font-size: 3rem; margin: 0 0 20px 0; color:var(--spirit);"></h2>
+            <div id="modalText" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, tag, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTag').innerText = tag;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

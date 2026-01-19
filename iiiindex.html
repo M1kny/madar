@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>ZAUN | Podsvetie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --toxic: #39ff14;      
+            --chem: #00ff87; 
+            --iron: rgba(255, 255, 255, 0.03); 
+            --bg: #000000; 
+            --text: #ffffff;
+        }
+
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Roboto Mono', monospace; overflow-x: hidden; }
+
+        nav { 
+            background: rgba(0, 0, 0, 0.9); padding: 1.5rem; display: flex; justify-content: center; gap: 3rem; 
+            border-bottom: 2px solid var(--toxic); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+        }
+        nav a { color: #1a4d1a; text-decoration: none; font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
+        nav a:hover, .active { color: var(--toxic) !important; text-shadow: 0 0 10px var(--toxic); }
+
+        h1 { 
+            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 7vw, 5rem); text-align: center; margin: 60px 0;
+            background: linear-gradient(to bottom, var(--toxic), #004d00);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.5));
+            text-transform: uppercase; letter-spacing: 10px; animation: glitchGlow 2s infinite alternate;
+        }
+
+        @keyframes glitchGlow {
+            from { filter: drop-shadow(0 0 10px var(--toxic)); }
+            to { filter: drop-shadow(0 0 30px var(--chem)); }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .char-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+        .char-card { 
+            background: var(--iron); backdrop-filter: blur(10px); padding: 50px 30px; 
+            border: 1px solid rgba(57, 255, 20, 0.1); border-left: 5px solid var(--toxic); 
+            border-radius: 10px; cursor: pointer; transition: all 0.3s ease; text-align: center;
+        }
+
+        .char-card:hover { 
+            transform: scale(1.05); background: rgba(57, 255, 20, 0.05); 
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
+        }
+
+        .char-card h2 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; margin-top: 15px; color: #fff; }
+        .tag { color: var(--toxic); font-weight: bold; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 3px; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95);
+            display: flex; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(20px);
+            opacity: 0; visibility: hidden; transition: 0.4s;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: #050505; padding: 50px; max-width: 700px; width: 90%;
+            border: 2px solid var(--toxic); border-radius: 5px; position: relative;
+            box-shadow: 0 0 50px rgba(57, 255, 20, 0.2);
+        }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: var(--toxic); font-size: 2.5rem; cursor: pointer; }
+        .modal-text { white-space: pre-line; line-height: 1.8; color: #88ff88; text-align: justify; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Demacia</a>
+        <a href="iindex.html">Noxus</a>
+        <a href="iiindex.html">Ionia</a>
+        <a href="iiiindex.html" class="active">Zaun</a>
+    </nav>
+
+    <div class="container">
+        <h1>Géniovia Zaunu</h1>
+        <div class="char-grid">
+            <div class="char-card" onclick="openModal('Jinx', 'Chaos', 'Jinx žije pre deštrukciu. S modrými vlasmi a arzenálom zbraní terorizuje Piltover aj Zaun.')"><h2>Jinx</h2><span class="tag">Anarchia</span></div>
+            <div class="char-card" onclick="openModal('Ekko', 'Génius', 'Ekko zostrojil Z-pohon, ktorý mu umožňuje vracať čas. Chráni ulice Zaunu pred každým nebezpečím.')"><h2>Ekko</h2><span class="tag">Čas</span></div>
+            <div class="char-card" onclick="openModal('Viktor', 'Evolúcia', 'Viktor verí v technologickú spásu. Sám sa premenil na kyborga, aby dosiahol dokonalosť.')"><h2>Viktor</h2><span class="tag">Pokrok</span></div>
+            <div class="char-card" onclick="openModal('Warwick', 'Monštrum', 'Warwick je výsledkom krutých experimentov. Krvilačná beštia, ktorá loví v temných stokách Zaunu.')"><h2>Warwick</h2><span class="tag">Hnev</span></div>
+            <div class="char-card" onclick="openModal('Vi', 'Sila', 'Vi vyrastala v Zaune, no teraz slúži ako strážkyňa s obrími hextechovými rukavicami.')"><h2>Vi</h2><span class="tag">Päste</span></div>
+            <div class="char-card" onclick="openModal('Singed', 'Alchymista', 'Singed je otcom chemických zbraní. Pre vedu neváha obetovať morálku ani životy miliónov.')"><h2>Singed</h2><span class="tag">Toxín</span></div>
+            <div class="char-card" onclick="openModal('Urgot', 'Dreadnought', 'Urgot je monštrum uväznené v mechanickom tele. Verí, že len bolesť odhalí skutočnú silu človeka.')"><h2>Urgot</h2><span class="tag">Stroj</span></div>
+            <div class="char-card" onclick="openModal('Blitzcrank', 'Golem', 'Blitzcrank je parný robot so srdcom. Pôvodne čistič stok, dnes ochranca všetkých slabých.')"><h2>Blitzcrank</h2><span class="tag">Pára</span></div>
+            <div class="char-card" onclick="openModal('Dr. Mundo', 'Šialenec', 'Mundo si myslí, že je doktor. Jeho liečba zvyčajne končí obrovským sekáčom a veľkým chaosom.')"><h2>Dr. Mundo</h2><span class="tag">Lekár</span></div>
+            <div class="char-card" onclick="openModal('Twitch', 'Potkan', 'Zmutovaný potkan milujúci špinu a jedy. Číha v tieňoch a strieľa otrávené šípy.')"><h2>Twitch</h2><span class="tag">Stoka</span></div>
+            <div class="char-card" onclick="openModal('Zac', 'Tajná zbraň', 'Zac je živá améba so schopnosťou meniť tvar. Hoci je z chemikálií, má dobré srdce.')"><h2>Zac</h2><span class="tag">Sliz</span></div>
+            <div class="char-card" onclick="openModal('Renata Glasc', 'Barónka', 'Renata ovláda Zaun cez peniaze a chemikálie. Ponúka vám všetko, ale cena je vaša sloboda.')"><h2>Renata Glasc</h2><span class="tag">Moc</span></div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="modalTag" class="tag" style="display:block; margin-bottom:10px;"></span>
+            <h2 id="modalTitle" style="font-family: 'Orbitron'; font-size: 2.5rem; margin: 0 0 20px 0; color:var(--toxic);"></h2>
+            <div id="modalText" class="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, tag, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTag').innerText = tag;
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
